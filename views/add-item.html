@@ -8,6 +8,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.4.0/dist/axios.min.js"></script>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -24,7 +25,10 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end">
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
           <ul class="navbar-nav d-flex gap-4">
             <li class="nav-item">
               <a class="nav-link" href="/">Home</a>
@@ -47,22 +51,51 @@
     >
       <form
         class="bg-body-tertiary p-3 col-md-8 col-lg-4 rounded shadow mt-5"
-        action="/admin/add"
-        method="post"
+        id="add_product"
       >
         <div class="mb-3">
           <label for="title" class="form-label">Product Name</label>
           <input type="text" class="form-control" name="title" />
         </div>
         <div class="mb-3">
-          <label for="size" class="form-label">Size</label>
-          <input type="text" class="form-control" name="size" />
+          <label for="size" class="form-label">Price</label>
+          <input type="text" class="form-control" name="price" />
+        </div>
+        <div class="mb-3">
+          <label for="size" class="form-label">Image Url</label>
+          <input type="text" class="form-control" name="image" />
+        </div>
+        <div class="mb-3">
+          <label for="size" class="form-label">Description</label>
+          <input type="text" class="form-control" name="description" />
         </div>
         <div>
-          <button type="submit" class="btn btn-primary mx-auto">Submit</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
+  <script>
+    document.getElementById("add_product").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = {
+        title: e.target.title.value,
+        price: e.target.price.value,
+        imageUrl: e.target.image.value,
+        description: e.target.description.value,
+      };
+      axios
+        .post("/admin/product", data)
+        .then((result) => {
+          console.log(result);
+          if (result.data.success) {
+            alert("Product Added!");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  </script>
 </html>

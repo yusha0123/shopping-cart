@@ -5,7 +5,7 @@ const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use(express.static("public"));
 app.use("/admin", adminRoutes);
