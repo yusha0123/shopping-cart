@@ -4,7 +4,7 @@ const fetchProducts = () => {
     data.products.forEach((product) => {
       const card = document.createElement("div");
       card.classList.add("card", "mb-3");
-
+      card.style.width = "18rem";
       card.innerHTML = `
       <img src="${product.imageUrl}" class="card-img-top" alt="${product.title}">
       <div class="card-body">

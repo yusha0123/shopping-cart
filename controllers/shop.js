@@ -18,24 +18,34 @@ exports.success = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
-    .then(([rows, fields]) => {
-      const products = rows;
-      res.status(200).json({ products });
+  Product.findAll()
+    .then((products) => {
+      res.json({ products });
     })
     .catch((err) => {
-      console.error(err);
-      res.status(500).json({ message: "Internal Server Error" });
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error!",
+      });
     });
 };
 
 exports.deleteProduct = (req, res, next) => {
   const id = req.params.id;
-  Product.deleteByid(id)
+  Product.destroy({
+    where: {
+      id: id,
+    },
+  })
     .then(() => {
       res.status(200).json({ success: "true" });
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error!",
+      });
     });
 };

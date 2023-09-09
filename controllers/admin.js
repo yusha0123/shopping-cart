@@ -6,16 +6,23 @@ exports.add_product = (req, res, next) => {
 };
 
 exports.addProduct = (req, res, next) => {
-  console.log(req.body);
   const { title, price, imageUrl, description } = req.body;
-  const product = new Product(title, imageUrl, description, price);
-  product
-    .save()
-    .then(() => {
-      res.json({ success: true });
+  Product.create({
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description,
+  })
+    .then((result) => {
+      res
+        .status(201)
+        .json({ success: true, message: "Data Inserted Successfully!" });
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ success: false });
+      res.status(500).json({
+        success: false,
+        message: "Internal Server Error!",
+      });
     });
 };
