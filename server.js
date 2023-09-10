@@ -5,6 +5,8 @@ const shopRoutes = require("./routes/shop");
 const sequelize = require("./utils/database");
 const User = require("./models/user");
 const Product = require("./models/product");
+const Cart = require("./models/cart");
+const cartItem = require("./models/cart-item");
 
 const app = express();
 app.use(express.json());
@@ -27,9 +29,13 @@ app.get("*", (req, res, next) =>
 
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: cartItem });
+Product.belongsToMany(Cart, { through: cartItem });
 
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     return User.findByPk(1);
   })
